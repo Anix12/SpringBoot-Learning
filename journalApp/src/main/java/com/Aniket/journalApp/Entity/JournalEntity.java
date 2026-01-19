@@ -1,17 +1,22 @@
 package com.Aniket.journalApp.Entity;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class JournalEntity {
     //Alt + ins
+    @Id
+    String id;
 
-    private Long id;
-    private String title;
-    private String content;
+    String title;
+    String content;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

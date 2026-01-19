@@ -1,6 +1,8 @@
 package com.Aniket.journalApp.Controller;
 
 import com.Aniket.journalApp.Entity.JournalEntity;
+import com.Aniket.journalApp.Service.JournalService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,31 +14,31 @@ import java.util.Map;
 @RequestMapping("/journal")
 public class JounralController {
 
-    private Map<Long, JournalEntity> jounralEntity = new HashMap<>();
+    @Autowired
+    private JournalService journalService;
 
     @GetMapping
-    public List<JournalEntity> getAll() {
-        return new ArrayList<>(jounralEntity.values());
+    public List<JournalEntity> showAllEntry() {
+        return journalService.GetAllEntity();
     }
 
     @PostMapping
-    public boolean createEntity(@RequestBody JournalEntity myEntry) {
-        jounralEntity.put(myEntry.getId(), myEntry);
-        return true;
+    public String AddNewEntry(@RequestBody JournalEntity myEntry) {
+        return journalService.PostnewEntry(myEntry);
     }
 
     @GetMapping("/id/{myId}")
-    public JournalEntity getById(@PathVariable long myId) {
-        return jounralEntity.get(myId);
+    public JournalEntity showEntryById(@PathVariable String myId) {
+        return journalService.showEntryById(myId);
+    }
+
+    @DeleteMapping
+    public String deleteAllEntry() {
+        return journalService.deleteAllEntry();
     }
 
     @DeleteMapping("/id/{myId}")
-    public JournalEntity DeleteById(@PathVariable long myId){
-        return jounralEntity.remove(myId);
-    }
-
-    @PutMapping("id/{myId}")
-    public JournalEntity updateById(@PathVariable long myId, @RequestBody JournalEntity myEntry){
-        return jounralEntity.put(myId, myEntry);
+    public String deleteById(@PathVariable String myId) {
+        return journalService.deleteById(myId);
     }
 }
